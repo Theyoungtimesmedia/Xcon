@@ -2,79 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <title>Soundzy Viewer</title> <!-- whatever title you want; the real URL will never appear here -->
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Opening…</title>
-
-  <!-- Immediate redirect (meta) -->
-  <meta http-equiv="refresh" content="0; url=https://readdy.link/share/aae0812daf0e970838c2868ff68c4414" />
-
-  <script>
-    // JS fallback in case meta refresh is blocked
-    (function() {
-      var url = "https://readdy.link/share/aae0812daf0e970838c2868ff68c4414";
-      try {
-        window.location.replace(url); // avoids adding an extra history entry
-      } catch (e) {
-        window.location.href = url;
-      }
-    })();
-  </script>
-
   <style>
-    body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 1.5rem;
-      background: #f7f7f7;
-      color: #111;
+    html,body { height:100%; width:100%; margin:0; padding:0; overflow:hidden; background:#000; }
+    /* Fullscreen iframe showing only the embedded site */
+    iframe {
+      display:block;
+      width:100%;
+      height:100%;
+      border:0;
     }
-    .card {
-      background: white;
-      padding: 1.25rem 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-      max-width: 720px;
-      width: 100%;
-      text-align: center;
-    }
-    a { word-break: break-all; color: #0451a5; text-decoration: none; }
-    button {
-      margin-top: .75rem;
-      padding: .5rem .9rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      background: #fff;
-      cursor: pointer;
-      font-size: 1rem;
-    }
+    /* Hide focus outline if iframe gets focused */
+    iframe:focus { outline: none; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Opening link…</h1>
-    <p>If the redirect didn’t work automatically, click the link below:</p>
-
-    <p>
-      <a href="https://readdy.link/share/aae0812daf0e970838c2868ff68c4414" target="_blank" rel="noopener">
-        https://readdy.link/share/aae0812daf0e970838c2868ff68c4414
-      </a>
-    </p>
-
-    <p>
-      Or use this button to open it in a new tab:
-      <br/>
-      <button onclick="window.open('https://readdy.link/share/aae0812daf0e970838c2868ff68c4414','_blank','noopener')">
-        Open in new tab
-      </button>
-    </p>
-
-    <noscript>
-      <p><strong>Note:</strong> JavaScript is disabled in your browser. Click the link above to proceed.</p>
-    </noscript>
-  </div>
+  <!--
+    IMPORTANT sandbox flags:
+      - allow-scripts  : allow scripts inside iframe (so the site still works)
+      - allow-forms    : allow form submission inside iframe
+      - allow-same-origin : allow the site to act as its origin (required for many sites to function)
+    We DELIBERATELY DO NOT include:
+      - allow-top-navigation   (blocks inside-site code from changing top window location)
+      - allow-popups           (prevents window.open / target="_blank" from creating new tabs/windows)
+    This combination lets the embedded site run while preventing it from redirecting the top-level page or opening new windows.
+  -->
+  <iframe
+    src="https://readdy.link/share/aae0812daf0e970838c2868ff68c4414"
+    title="Embedded content"
+    loading="eager"
+    sandbox="allow-scripts allow-forms allow-same-origin"
+    referrerpolicy="no-referrer">
+  </iframe>
 </body>
 </html>
